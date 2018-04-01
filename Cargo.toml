@@ -1,0 +1,6 @@
+[package]
+name = "sa"
+version = "0.1.0"
+authors = ["Mike Krinkin <krinkin@google.com>"]
+
+[dependencies]
