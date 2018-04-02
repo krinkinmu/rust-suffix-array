@@ -8,7 +8,7 @@ fn sort_suffix_array<K, F>(order: &mut [usize],
                            index: &mut [usize],
                            get_key: F)
         where F: (Fn(&usize) -> K), K: Ord {
-    order.sort_by_key(&get_key);
+    order.sort_unstable_by_key(&get_key);
     let mut current = 0;
     for i in 1..order.len() {
         if get_key(&order[i]) != get_key(&order[i - 1]) {
@@ -20,10 +20,8 @@ fn sort_suffix_array<K, F>(order: &mut [usize],
 
 pub fn build_suffix_array(s: &[u8]) -> SuffixArray {
     let mut order: Vec<usize> = (0..s.len() + 1).collect();
-    let mut index = vec![0; s.len() + 1];
-    for i in 0..s.len() {
-        index[i] = s[i] as usize;
-    }
+    let mut index: Vec<usize> = s.iter().map(|x| *x as usize).collect();
+    index.push(0);
 
     let mut prev_index = index.clone();
     sort_suffix_array(&mut order, &mut index, |i: &usize| prev_index[*i]);
